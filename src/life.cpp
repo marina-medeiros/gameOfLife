@@ -188,7 +188,8 @@ namespace life{
     }
 
     void Life::print_matrix(){
-        std::cout << "Generation " << m_genCount << ":" << std::endl;
+        int genCount = 1;
+        std::cout << "Generation " << genCount << ":" << std::endl;
         for(int ii = 1; ii < m_rows-1; ii++){
             std::cout << '[';
             for(int jj = 1; jj < m_cols-1; jj++){
@@ -201,7 +202,7 @@ namespace life{
             std::cout << ']' << std::endl;
         }
         std::cout << std::endl;
-        m_genCount++;
+        genCount++;
     }
 
     void Life::simulation_loop(){
@@ -213,10 +214,12 @@ namespace life{
             if(count_alive_cells() == 0){
                 break;
             }
+            if(genCount > m_maxGen){
+                break;
+            }
+            genCount++;
             print_matrix();
-            std::vector<std::vector<int>> newMatrix = generate_new_matrix();
-            m_currentMatrix = newMatrix;
-            //m_currentMatrix = generate_new_matrix();
+            m_currentMatrix = generate_new_matrix();
         }
     }
 

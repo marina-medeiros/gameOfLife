@@ -86,13 +86,16 @@ class Canvas {
         return { x * m_block_size, y * m_block_size };
     }
     /// Given a coordinate it returns every channel of the pixel
-     std::array<component_t, image_depth> pixel_channels(coord_t x, coord_t y) const {
+    std::array<component_t, image_depth> pixel_channels(coord_t x, coord_t y) const {
         auto [real_x, real_y] = virtual_to_real(x, y);
         return { m_pixels[(real_y * m_width + real_x) * image_depth],
                  m_pixels[(real_y * m_width + real_x) * image_depth + 1],
                  m_pixels[(real_y * m_width + real_x) * image_depth + 2],
                  m_pixels[(real_y * m_width + real_x) * image_depth + 3] };
     }
+
+    void matrix_to_png(std::vector<std::vector<int>>& matrix);
+
 
   private:
     size_t m_width;                //!< The image width in pixel units.

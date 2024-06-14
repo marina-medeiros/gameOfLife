@@ -6,6 +6,9 @@
 #include "canvas.h"
 
 namespace life {
+
+
+
 /*!
  * Deep copy of the canvas.
  * @param clone The object we are copying from.
@@ -70,5 +73,10 @@ void Canvas::pixel(coord_t x, coord_t y, const Color& c) {
               = 255;  //!< Setting alpha to full opacity
         }
 }
+
+void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, ){
+
+}
+
 }  // namespace life
 //================================[ canvas.cpp ]================================//

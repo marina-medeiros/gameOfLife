@@ -20,4 +20,18 @@
 
 #include <cstdlib>  // EXIT_SUCCESS
 
-int main(int argc, char* argv[]) { return EXIT_SUCCESS; }
+int main(int argc, char* argv[]) { 
+    /*
+    valida os args
+    lê o arquivão
+        passar informações pras classes life e canvas
+    cria um objeto da classe Life
+    chama as funções:
+        void read_matrix_config(std::string path); // set rows e cols
+        void set_conditions(std::string input); // set conditions e genCount
+    simulation loop 
+    !!!adicionar parte do canvas ao simulation loop
+    
+    */
+    return EXIT_SUCCESS; 
+}

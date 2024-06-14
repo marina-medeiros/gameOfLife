@@ -26,7 +26,7 @@ namespace life {
             int m_cols = 8;
             std::vector<int> m_surviveConditions = {2, 3};
             std::vector<int> m_bornConditions = {3};
-            int m_genCount = 1; 
+            int m_maxGen = 50; 
 
         public:
             std::set<std::string> get_m_allMatrixes(){return m_allMatrixes;}

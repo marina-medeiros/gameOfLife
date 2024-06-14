@@ -16,13 +16,13 @@ std::string trim(const std::string &str) {
     return str.substr(first, (last - first + 1));
 }
 
-std::unordered_map<std::string, std::string> Data::read_ini(std::string iniFile) {
+void Data::read_ini(std::string iniFile) {
     std::ifstream inputFile(iniFile);
     std::unordered_map<std::string, std::string> answers;
 
     if (!inputFile.is_open()) { 
         std::cerr << "Error opening the file!" << std::endl;
-        return answers;
+        exit(1);
     }
 
     std::string line;
@@ -34,7 +34,7 @@ std::unordered_map<std::string, std::string> Data::read_ini(std::string iniFile)
         }
         size_t equalPosition = line.find('=');
         if (equalPosition != std::string::npos) {
-            std::string key = trim(line.substr(0, equalPosition));
+            std::string variable = trim(line.substr(0, equalPosition));
             std::string value = trim(line.substr(equalPosition + 1));
 
             // Remove comments
@@ -43,9 +43,9 @@ std::unordered_map<std::string, std::string> Data::read_ini(std::string iniFile)
                 value = trim(value.substr(0, comment_pos));
             }
 
-            answers.insert({key, value});
+            answers.insert({variable, value});
         }
     }
     inputFile.close();
-    return answers;
+    variablesAndValues = answers;
 }

@@ -21,7 +21,7 @@ private:
     // int fps;
 public:
     Data() = default;
-    std::unordered_map<std::string, std::string> read_ini(std::string iniFile);
+    void read_ini(std::string iniFile);
 };
 
 #endif

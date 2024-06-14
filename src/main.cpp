@@ -20,7 +20,8 @@
 
 #include <cstdlib>  // EXIT_SUCCESS
 
-int main(int argc, char* argv[]) { 
+int main(int argc, char* argv[]) {
+    
     /*
     valida os args
     lê o arquivão

@@ -11,6 +11,7 @@
 class Data{
 private:
     std::unordered_map<std::string, std::string> variablesAndValues;
+    std::string iniPath;
     // std::string cfgFile;
     // std::string gameRules;
     // bool image;
@@ -20,7 +21,7 @@ private:
     // std::string imagePath;
     // int fps;
 public:
-    Data() = default;
+    Data(const std::string& iniFile) : iniPath(iniFile) {read_ini(iniFile);}
     void read_ini(std::string iniFile);
 };
 

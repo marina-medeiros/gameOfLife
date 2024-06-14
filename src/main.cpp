@@ -19,6 +19,44 @@
  */
 
 #include <cstdlib>  // EXIT_SUCCESS
+#include <iostream>
+#include <string> 
+#include <dirent.h>
+#include <iostream>
+#include <dirent.h>
+#include <cstdlib> 
+#include <string>
+
+#include "data.h"
+
+/*!
+* Checks if a directory exists.
+*
+* @param target The path of the directory to check.
+*
+* @return True if the directory exists, false otherwise.
+*/
+bool directory_exist(const std::string &target) {
+    bool exists{ false };
+    DIR *p_dir;
+    p_dir = opendir(target.c_str());
+    exists = (p_dir != nullptr);
+    closedir(p_dir);
+    return exists;
+}
+
+std::string validate_input(int argc, char* argv[]){
+    if(argc!=2){
+        std::cout<< "Invalid number of arguments, try again" <<std::endl;
+        exit(1);
+    }
+    if(directory_exist(argv[1])){
+        return argv[1];
+    }else{
+        std::cout<< "Directory doesn't exist, try again" <<std::endl;
+        exit(1);
+    }
+}
 
 int main(int argc, char* argv[]) {
     

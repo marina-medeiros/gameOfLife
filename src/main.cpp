@@ -59,9 +59,8 @@ std::string validate_input(int argc, char* argv[]){
 }
 
 int main(int argc, char* argv[]) {
-    
+    Data data(validate_input(argc,argv));
     /*
-    valida os args
     lê o arquivão
         passar informações pras classes life e canvas
     cria um objeto da classe Life

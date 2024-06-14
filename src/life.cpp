@@ -7,6 +7,9 @@
 #include <sstream>
 
 #include "life.h"
+#include "../lib/canvas.h"
+#include "../lib/common.h"
+
 
 namespace life{
     void Life::read_matrix_config(std::string path){

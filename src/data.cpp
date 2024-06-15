@@ -21,7 +21,7 @@ void Data::read_ini(std::string iniFile) {
     std::unordered_map<std::string, std::string> answers;
 
     if (!inputFile.is_open()) { 
-        std::cerr << "Error opening the file!" << std::endl;
+        std::cerr << "Error opening initiation file!" << std::endl;
         exit(1);
     }
 

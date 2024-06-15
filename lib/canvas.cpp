@@ -4,10 +4,19 @@
  */
 
 #include "canvas.h"
+#include "lodepng.h"
 
 namespace life {
 
+void encode_png(const char* filename, const unsigned char* image, unsigned width, unsigned height) {
+  // Encode the image
+  unsigned error = lodepng::encode(filename, image, width, height);
 
+  // if there's an error, display it
+  if (error != 0U) {
+    std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+  }
+}
 
 /*!
  * Deep copy of the canvas.
@@ -74,8 +83,23 @@ void Canvas::pixel(coord_t x, coord_t y, const Color& c) {
         }
 }
 
-void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, ){
-
+void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, std::string aliveColor, std::string bkgColor, std::string imagePath, std::string configPrefix){
+    int genCount = 1;
+    clear();
+    for (int y = 0; y < (int)height(); ++y) {
+        for (int x = 0; x < (int)width(); ++x) {
+            if (matrix[y][x] == 0 || matrix[y][x] == 2) {
+                pixel(x, y, color_pallet[bkgColor]);
+            } else if (matrix[y][x] == 1) {
+                pixel(x, y, color_pallet[aliveColor]);
+            }
+        }
+    }
+    // data.path + / + 
+    std::string filename = imagePath + "/" + configPrefix + std::to_string(genCount) + ".png";
+    const char *cstr = filename.c_str();
+    encode_png(cstr, pixels(), real_width(), real_height());
+    genCount++;
 }
 
 }  // namespace life

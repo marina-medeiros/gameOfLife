@@ -94,8 +94,7 @@ class Canvas {
                  m_pixels[(real_y * m_width + real_x) * image_depth + 3] };
     }
 
-    void matrix_to_png(std::vector<std::vector<int>>& matrix);
-
+    void matrix_to_png(std::vector<std::vector<int>>& matrix, std::string aliveColor, std::string bkgColor, std::string imagePath, std::string configPrefix);
 
   private:
     size_t m_width;                //!< The image width in pixel units.

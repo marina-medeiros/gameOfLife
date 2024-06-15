@@ -13,10 +13,11 @@
 
 namespace life{
     void Life::read_matrix_config(std::string path){
+        path = "../" + path;
         std::ifstream inputFile(path);
 
         if (!inputFile.is_open()) { 
-            std::cerr << "Error opening the file!" << std::endl;
+            std::cerr << "Error opening the matrix intiation file! " << path << std::endl;
             return;
         }
 
@@ -70,6 +71,24 @@ namespace life{
         for(char c : survivesPart){
             m_surviveConditions.push_back(c - '0');
         }
+    }
+
+        // Function to extract the 'cfg1' part of the given path
+    std::string Life::extractConfigPrefix() {
+        // Find the position of the last '/'
+        size_t lastSlashPos = m_cfgFile.find_last_of('/');
+        if (lastSlashPos == std::string::npos) {
+            return "";
+        }
+
+        // Find the position of the last '.'
+        size_t lastDotPos = m_cfgFile.find_last_of('.');
+        if (lastDotPos == std::string::npos) {
+            return "";
+        }
+
+        // Extract the substring between the last '/' and the last '.'
+        return m_cfgFile.substr(lastSlashPos + 1, lastDotPos - lastSlashPos - 1);
     }
 
     std::vector<std::pair<int, int>> Life::find_dead_neighbors(int x, int y){
@@ -190,8 +209,7 @@ namespace life{
         return false;
     }
 
-    void Life::print_matrix(){
-        int genCount = 1;
+    void Life::print_matrix(int& genCount){
         std::cout << "Generation " << genCount << ":" << std::endl;
         for(int ii = 1; ii < m_rows-1; ii++){
             std::cout << '[';
@@ -205,7 +223,6 @@ namespace life{
             std::cout << ']' << std::endl;
         }
         std::cout << std::endl;
-        genCount++;
     }
 
     void Life::simulation_loop(){
@@ -220,9 +237,17 @@ namespace life{
             if(genCount > m_maxGen){
                 break;
             }
+            unsigned width = static_cast<unsigned int>(m_cols);
+            unsigned height = static_cast<unsigned int>(m_rows);
+            Canvas image(width, height, m_blockSize);
+            print_matrix(genCount);
             genCount++;
-            print_matrix();
-            m_currentMatrix = generate_new_matrix();
+            // if(m_image){ //problema com as cores
+            //     image.matrix_to_png(m_currentMatrix, m_aliveColor, m_bkgColor, m_imagePath, extractConfigPrefix());
+            // }
+            std::vector<std::vector<int>> newMatrix = generate_new_matrix();
+            m_currentMatrix = newMatrix;
+            std::cout << "oi" << std::endl;
         }
     }
 

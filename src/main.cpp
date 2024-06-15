@@ -26,8 +26,12 @@
 #include <dirent.h>
 #include <cstdlib> 
 #include <string>
+#include <fstream>
 
 #include "data.h"
+#include "life.h"
+#include "../lib/canvas.h"
+#include "../lib/common.h"
 
 /*!
 * Checks if a directory exists.
@@ -36,40 +40,42 @@
 *
 * @return True if the directory exists, false otherwise.
 */
-bool directory_exist(const std::string &target) {
-    bool exists{ false };
-    DIR *p_dir;
-    p_dir = opendir(target.c_str());
-    exists = (p_dir != nullptr);
-    closedir(p_dir);
-    return exists;
+
+bool file_exists(const std::string &str) {
+    std::ifstream fs{str};
+    return fs.is_open();
 }
+
 
 std::string validate_input(int argc, char* argv[]){
     if(argc!=2){
         std::cout<< "Invalid number of arguments, try again" <<std::endl;
         exit(1);
     }
-    if(directory_exist(argv[1])){
+    if(file_exists(argv[1])){
         return argv[1];
     }else{
         std::cout<< "Directory doesn't exist, try again" <<std::endl;
         exit(1);
     }
+
+    return "config/glife.ini";
+}
+
+void displayWelcome(int lines, int cols) {
+    std::cout << "****************************************************************" << std::endl;
+    std::cout << "Welcome to Conway’s game of Life." << std::endl;
+    std::cout << "Running a simulation on a grid of size " << lines << " by " << cols << " in which" << std::endl;
+    std::cout << "each cell can either be occupied by an organism or not." << std::endl;
+    std::cout << "The occupied cells change from generation to generation" << std::endl;
+    std::cout << "according to the number of neighboring cells which are alive." << std::endl;
+    std::cout << "****************************************************************" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
     Data data(validate_input(argc,argv));
-    /*
-    lê o arquivão
-        passar informações pras classes life e canvas
-    cria um objeto da classe Life
-    chama as funções:
-        void read_matrix_config(std::string path); // set rows e cols
-        void set_conditions(std::string input); // set conditions e genCount
-    simulation loop 
-    !!!adicionar parte do canvas ao simulation loop
-    
-    */
+    life::Life lifeManager(data);
+    displayWelcome(lifeManager.get_rows(), lifeManager.get_cols());
+    lifeManager.simulation_loop();
     return EXIT_SUCCESS; 
 }

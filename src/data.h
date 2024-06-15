@@ -22,7 +22,10 @@ private:
     // int fps;
 public:
     Data(const std::string& iniFile) : iniPath(iniFile) {read_ini(iniFile);}
-    void read_ini(std::string iniFile);
+    void read_ini(std::string iniFile);// Getter for variablesAndValues
+    const std::unordered_map<std::string, std::string>& get_variablesAndValues() const {
+        return variablesAndValues;
+    }
 };
 
 #endif

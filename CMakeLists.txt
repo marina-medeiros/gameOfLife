@@ -24,12 +24,16 @@ set( TIP_LIB "tip" )
 set( APP_NAME "glife")
 # include_directories(lib)
 add_subdirectory(lib) # This will ask this lib to be build
-add_subdirectory(src)
 
 
 # Specifies include directories to use when compiling a given target.
-add_executable( ${APP_NAME} src/canvas.cpp src/main.cpp )
+add_executable( ${APP_NAME} lib/canvas.cpp
+                            lib/lodepng.cpp
+                            src/data.cpp                            
+                            src/life.cpp
+                            src/main.cpp )
 target_include_directories( ${APP_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src )
+target_include_directories( ${APP_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib )
 
 # * CMAKE_SOURCE_DIR
 # The top-most directory of the source tree (i.e. where the top-most CMakeLists.txt file resides).

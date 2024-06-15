@@ -21,8 +21,8 @@ namespace life {
 
             int m_rows = 8;
             int m_cols = 8;
-            std::vector<int> m_surviveConditions = {2, 3};
-            std::vector<int> m_bornConditions = {3};
+            std::vector<int> m_surviveConditions;
+            std::vector<int> m_bornConditions;
             int m_maxGen = 50;
             std::string m_cfgFile;
             std::string m_gameRules; // sets conditions
@@ -79,16 +79,10 @@ namespace life {
                 }
                 if (config.find("game_rules") != config.end()) {
                     m_gameRules = config.at("game_rules");
+                    if(m_gameRules.length() >=2 && m_gameRules.front() == '"'  && m_gameRules.back() == '"'){
+                        m_gameRules = m_gameRules.substr(1, m_gameRules.length() - 2);
+                    }
                     set_conditions(m_gameRules);
-                    std::cout << m_gameRules << std::endl;
-                    for(const auto& bornCondition : m_bornConditions){
-                        std::cout << bornCondition << " ";
-                    }
-                    std::cout << std::endl;
-                    for(const auto& surv : m_surviveConditions){
-                        std::cout << surv << " ";
-                    }
-                    std::cout << std::endl;
                 }
 
                 m_currentMatrix.resize(m_rows, std::vector<int>(m_cols, 0));

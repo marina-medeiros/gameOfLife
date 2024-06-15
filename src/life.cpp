@@ -63,7 +63,7 @@ namespace life{
 
         std::string bornPart = input.substr(1, slashPos - 1);
         std::string survivesPart = input.substr(slashPos + 2);
-
+        
         for(char c : bornPart){
             m_bornConditions.push_back(c - '0');
         }
@@ -247,7 +247,6 @@ namespace life{
             // }
             std::vector<std::vector<int>> newMatrix = generate_new_matrix();
             m_currentMatrix = newMatrix;
-            std::cout << "oi" << std::endl;
         }
     }
 

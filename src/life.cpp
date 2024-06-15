@@ -214,16 +214,24 @@ namespace life{
         for(int ii = 1; ii < m_rows-1; ii++){
             std::cout << '[';
             for(int jj = 1; jj < m_cols-1; jj++){
-                if(m_currentMatrix[ii][jj] == 2 || m_currentMatrix[ii][jj] == 0){
+                if(m_currentMatrix[ii][jj] == 2){
                     std::cout << ' ';
-                }else{
+                }if(m_currentMatrix[ii][jj] == 0){
+                    std::cout << '.';
+                }if(m_currentMatrix[ii][jj] == 1){
                     std::cout << '*';
                 }
+                // if(m_currentMatrix[ii][jj] == 2 || m_currentMatrix[ii][jj] == 0){
+                //     std::cout << ' ';
+                // }else{
+                //     std::cout << '*';
+                // }
             }
             std::cout << ']' << std::endl;
         }
         std::cout << std::endl;
     }
+
 
     void Life::simulation_loop(){
         int genCount = 1;

@@ -19,8 +19,8 @@ namespace life {
             std::vector<std::vector<int>> m_currentMatrix;
             //std::vector<std::vector<int>> m_newMatrix;
 
-            int m_rows = 8;
-            int m_cols = 8;
+            int m_rows;
+            int m_cols;
             std::vector<int> m_surviveConditions;
             std::vector<int> m_bornConditions;
             int m_maxGen = 50;

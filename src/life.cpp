@@ -48,11 +48,11 @@ namespace life{
             }else{
                 rowSubstring = line.substr(0, m_cols);
             }
-            for (int jj = 0; jj < m_cols; jj++) {
+            for (int jj = 1; jj < m_cols-1; jj++) {
                 if (rowSubstring[jj] == m_liveChar) {
-                    m_currentMatrix[ii][jj+1] = 1;
+                    m_currentMatrix[ii][jj] = 1;
                 } else {
-                    m_currentMatrix[ii][jj+1] = 0;
+                    m_currentMatrix[ii][jj] = 0;
                 }
             }
         }

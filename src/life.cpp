@@ -1,10 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <fstream> 
-#include <iostream> 
 #include <utility>
 #include <set>
 #include <sstream>
+#include <cstdlib> // for system
+#include <thread>   // for sleep_for
+#include <chrono>   // for chrono::seconds
 
 #include "life.h"
 #include "../lib/canvas.h"
@@ -31,7 +33,7 @@ namespace life{
         m_cols = stoi(line.substr(spacePos + 1)) + 2;
 
         std::getline(inputFile, line);
-        char live = line[0];
+        m_liveChar = line[0];
 
         // Resize the matrix to the appropriate number of rows and columns
         m_currentMatrix.resize(m_rows, std::vector<int>(m_cols, 0));
@@ -47,7 +49,7 @@ namespace life{
                 rowSubstring = line.substr(0, m_cols);
             }
             for (int jj = 0; jj < m_cols; jj++) {
-                if (rowSubstring[jj] == live) {
+                if (rowSubstring[jj] == m_liveChar) {
                     m_currentMatrix[ii][jj+1] = 1;
                 } else {
                     m_currentMatrix[ii][jj+1] = 0;
@@ -91,7 +93,7 @@ namespace life{
         return m_cfgFile.substr(lastSlashPos + 1, lastDotPos - lastSlashPos - 1);
     }
 
-    std::vector<std::pair<int, int>> Life::find_dead_neighbors(int x, int y){
+    std::vector<std::pair<int, int>> Life::find_dead_neighbors(int row, int col){
         std::vector<std::pair<int, int>> coords;
         std::vector<std::pair<int, int>> directions = {
             {-1, -1}, {-1, 0}, {-1, 1},
@@ -99,16 +101,18 @@ namespace life{
             { 1, -1}, { 1, 0}, { 1, 1}
         };
 
+        int count = 0;
         for(const auto& dir : directions){
-            if(m_currentMatrix[y + dir.first][x + dir.second] == 0){
-                coords.emplace_back((y + dir.first), (x + dir.second));
+            if(m_currentMatrix[row + dir.first][col + dir.second] == 0){
+                coords.emplace_back((row + dir.first), (col + dir.second));
+                count++;
             }
         }
 
         return coords;
     }
 
-    int Life::count_live_neighbors(int x, int y){
+    int Life::count_live_neighbors(int row, int col){
         int count = 0;
         std::vector<std::pair<int, int>> directions = {
             {-1, -1}, {-1, 0}, {-1, 1},
@@ -117,7 +121,7 @@ namespace life{
         };
 
         for(const auto& dir : directions){
-            if(m_currentMatrix[y + dir.first][x + dir.second] == 0){
+            if(m_currentMatrix[row + dir.first][col + dir.second] == 1){
                 count++;
             }
         }
@@ -200,13 +204,21 @@ namespace life{
         return stringfication;
     }
 
-    bool Life::matrix_is_repeated(std::string matrixKey){
-        if(!m_allMatrixes.insert(matrixKey).second){
-            return true;
-        }else{
-            m_allMatrixes.insert(matrixKey);
-        }
-        return false;
+    // bool Life::matrix_is_repeated(std::string matrixKey){
+    //     if(!m_allMatrixes.insert(matrixKey).second){
+    //         return true;
+    //     }else{
+    //         m_allMatrixes.insert(matrixKey);
+    //     }
+    //     return false;
+    // }
+
+    bool Life::matrix_is_repeated(std::string matrixKey) {
+        // Tenta inserir o matrixKey no conjunto
+        auto result = m_allMatrixes.insert(matrixKey);
+        
+        // Se a inserção falhar, significa que a chave já está presente
+        return !result.second;
     }
 
     void Life::print_matrix(int& genCount){
@@ -214,18 +226,11 @@ namespace life{
         for(int ii = 1; ii < m_rows-1; ii++){
             std::cout << '[';
             for(int jj = 1; jj < m_cols-1; jj++){
-                if(m_currentMatrix[ii][jj] == 2){
+                if(m_currentMatrix[ii][jj] == 2 || m_currentMatrix[ii][jj] == 0){
                     std::cout << ' ';
-                }if(m_currentMatrix[ii][jj] == 0){
-                    std::cout << '.';
-                }if(m_currentMatrix[ii][jj] == 1){
-                    std::cout << '*';
+                }else{
+                    std::cout << m_liveChar;
                 }
-                // if(m_currentMatrix[ii][jj] == 2 || m_currentMatrix[ii][jj] == 0){
-                //     std::cout << ' ';
-                // }else{
-                //     std::cout << '*';
-                // }
             }
             std::cout << ']' << std::endl;
         }
@@ -237,7 +242,7 @@ namespace life{
         int genCount = 1;
         while(true){
             if(matrix_is_repeated(generate_matrix_key())){
-                break;
+                return;
             }
             if(count_alive_cells() == 0){
                 break;
@@ -248,11 +253,14 @@ namespace life{
             unsigned width = static_cast<unsigned int>(m_cols);
             unsigned height = static_cast<unsigned int>(m_rows);
             Canvas image(width, height, m_blockSize);
-            print_matrix(genCount);
+            int frame_duration_ms = 1000 / m_fps;
+            std::this_thread::sleep_for(std::chrono::milliseconds(frame_duration_ms));
+            if(m_image){
+                image.matrix_to_png(m_currentMatrix, m_aliveColor, m_bkgColor, m_imagePath, extractConfigPrefix(), genCount);
+            }else{
+                print_matrix(genCount);
+            }
             genCount++;
-            // if(m_image){ //problema com as cores
-            //     image.matrix_to_png(m_currentMatrix, m_aliveColor, m_bkgColor, m_imagePath, extractConfigPrefix());
-            // }
             std::vector<std::vector<int>> newMatrix = generate_new_matrix();
             m_currentMatrix = newMatrix;
         }

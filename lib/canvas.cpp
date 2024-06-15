@@ -83,8 +83,7 @@ void Canvas::pixel(coord_t x, coord_t y, const Color& c) {
         }
 }
 
-void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, std::string aliveColor, std::string bkgColor, std::string imagePath, std::string configPrefix){
-    int genCount = 1;
+void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, std::string aliveColor, std::string bkgColor, std::string imagePath, std::string configPrefix, int genCount){
     clear();
     for (int y = 0; y < (int)height(); ++y) {
         for (int x = 0; x < (int)width(); ++x) {
@@ -99,7 +98,6 @@ void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, std::string al
     std::string filename = imagePath + "/" + configPrefix + std::to_string(genCount) + ".png";
     const char *cstr = filename.c_str();
     encode_png(cstr, pixels(), real_width(), real_height());
-    genCount++;
 }
 
 }  // namespace life

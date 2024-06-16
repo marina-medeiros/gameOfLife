@@ -30,8 +30,6 @@
 
 #include "data.h"
 #include "life.h"
-#include "../lib/canvas.h"
-#include "../lib/common.h"
 
 /*!
 * Checks if a directory exists.
@@ -52,14 +50,11 @@ std::string validate_input(int argc, char* argv[]){
         std::cout<< "Invalid number of arguments, try again" <<std::endl;
         exit(1);
     }
-    if(file_exists(argv[1])){
-        return argv[1];
-    }else{
-        std::cout<< "Directory doesn't exist, try again" <<std::endl;
+    if(!file_exists(argv[1])){
+        std::cout<< "File doesn't exist, try again" <<std::endl;
         exit(1);
     }
-
-    return "config/glife.ini";
+    return argv[1];
 }
 
 void displayWelcome(int lines, int cols) {

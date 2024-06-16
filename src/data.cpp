@@ -35,7 +35,7 @@ std::string trim(const std::string &str) {
  * @param iniFile The path to the INI file to be read.
  */
 void Data::read_ini(std::string iniFile) {
-    std::cout << ">>> Trying to open input file [../source/data/cfg2.dat]...";
+    std::cout << ">>> Trying to open input file [" << iniFile << "]...";
     std::ifstream inputFile(iniFile);
     std::unordered_map<std::string, std::string> answers;
 

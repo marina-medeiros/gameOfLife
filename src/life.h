@@ -22,7 +22,7 @@ namespace life {
             int m_cols;
             std::vector<int> m_surviveConditions;
             std::vector<int> m_bornConditions;
-            int m_maxGen = 50;
+            int m_maxGen = 0;
             std::string m_cfgFile;
             std::string m_gameRules; // sets conditions
             bool m_image;

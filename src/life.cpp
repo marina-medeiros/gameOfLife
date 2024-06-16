@@ -332,7 +332,7 @@ namespace life{
             if(count_alive_cells() == 0){
                 break;
             }
-            if(genCount > m_maxGen){
+            if(m_maxGen > 0 && genCount > m_maxGen){
                 break;
             }
             unsigned width = static_cast<unsigned int>(m_cols-2);

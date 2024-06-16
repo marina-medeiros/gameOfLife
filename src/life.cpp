@@ -14,6 +14,20 @@
 
 
 namespace life{
+
+    /*!
+* Checks if a directory exists.
+*
+* @param target The path of the directory to check.
+*
+* @return True if the directory exists, false otherwise.
+*/
+
+bool file_exists(const std::string &str) {
+    std::ifstream fs{str};
+    return fs.is_open();
+}
+
 /**
  * @brief Reads the matrix configuration from a file.
  *
@@ -25,6 +39,11 @@ namespace life{
     void Life::read_matrix_config(std::string path){
         path = "../" + path;
         std::ifstream inputFile(path);
+
+        if(!file_exists(path)){
+        std::cout<< "File doesn't exist, try again" <<std::endl;
+        exit(1);
+        }
 
         if (!inputFile.is_open()) { 
             std::cerr << "Error opening the matrix intiation file! " << path << std::endl;

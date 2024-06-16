@@ -25,6 +25,15 @@ std::string trim(const std::string &str) {
     return str.substr(first, (last - first + 1));
 }
 
+/**
+ * @brief Reads and processes an INI file to extract key-value pairs.
+ *
+ * This member function of the Data class opens the specified INI file,
+ * processes its contents to extract key-value pairs, and stores them in
+ * a member variable `variablesAndValues`.
+ *
+ * @param iniFile The path to the INI file to be read.
+ */
 void Data::read_ini(std::string iniFile) {
     std::cout << ">>> Trying to open input file [../source/data/cfg2.dat]...";
     std::ifstream inputFile(iniFile);

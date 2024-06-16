@@ -14,6 +14,14 @@
 
 
 namespace life{
+/**
+ * @brief Reads the matrix configuration from a file.
+ *
+ * This function reads the matrix configuration from the specified file,
+ * initializes the matrix size, and sets the character representing a live cell.
+ *
+ * @param path The path to the configuration file.
+ */
     void Life::read_matrix_config(std::string path){
         path = "../" + path;
         std::ifstream inputFile(path);
@@ -65,6 +73,15 @@ namespace life{
         std::cout << ">>> Finished reading input data file.\n" << std::endl;
     }
 
+
+/**
+ * @brief Sets the conditions for cell birth and survival.
+ *
+ * This function sets the birth and survival conditions for the simulation
+ * based on the given input string.
+ *
+ * @param input A string representing the birth and survival conditions in the format "B3/S23".
+ */
     void Life::set_conditions(const std::string input){
         size_t slashPos = input.find('/');
 
@@ -80,7 +97,14 @@ namespace life{
         }
     }
 
-        // Function to extract the 'cfg1' part of the given path
+
+/**
+ * @brief Extracts the prefix of the configuration file name.
+ *
+ * This function extracts the prefix (e.g., "cfg1") from the configuration file path.
+ *
+ * @return The extracted prefix of the configuration file name.
+ */
     std::string Life::extractConfigPrefix() {
         // Find the position of the last '/'
         size_t lastSlashPos = m_cfgFile.find_last_of('/');
@@ -98,6 +122,15 @@ namespace life{
         return m_cfgFile.substr(lastSlashPos + 1, lastDotPos - lastSlashPos - 1);
     }
 
+/**
+ * @brief Finds the dead neighbors of a cell.
+ *
+ * This function finds the dead neighbors of a cell at the specified row and column.
+ *
+ * @param row The row index of the cell.
+ * @param col The column index of the cell.
+ * @return A vector of pairs representing the coordinates of the dead neighbors.
+ */
     std::vector<std::pair<int, int>> Life::find_dead_neighbors(int row, int col){
         std::vector<std::pair<int, int>> coords;
         std::vector<std::pair<int, int>> directions = {
@@ -117,6 +150,15 @@ namespace life{
         return coords;
     }
 
+/**
+ * @brief Counts the live neighbors of a cell.
+ *
+ * This function counts the live neighbors of a cell at the specified row and column.
+ *
+ * @param row The row index of the cell.
+ * @param col The column index of the cell.
+ * @return The number of live neighbors.
+ */
     int Life::count_live_neighbors(int row, int col){
         int count = 0;
         std::vector<std::pair<int, int>> directions = {
@@ -134,6 +176,11 @@ namespace life{
         return count;
     }
 
+/**
+ * @brief Sets the borders cells. A cell is considered a border cell when it is a dead neighbor of a live cell.
+ *
+ * This function sets the borders cells by marking the dead neighbors of live cells.
+ */
     void Life::set_borders(){
         for(int ii = 1; ii < m_rows -1; ii++){
             for(int jj = 1; jj < m_cols-1; jj++){
@@ -147,6 +194,14 @@ namespace life{
         }
     }
 
+/**
+ * @brief Generates a new matrix for the next generation.
+ *
+ * This function generates a new matrix for the next generation based on the current matrix
+ * and the birth and survival conditions.
+ *
+ * @return The new matrix for the next generation.
+ */
     std::vector<std::vector<int>> Life::generate_new_matrix(){
         set_borders();
         std::vector<std::vector<int>> newMatrix = m_currentMatrix;
@@ -179,6 +234,13 @@ namespace life{
         return newMatrix;
     }
 
+/**
+ * @brief Counts the number of alive cells in the current matrix.
+ *
+ * This function counts the number of alive cells (cells with value 1) in the current matrix.
+ *
+ * @return The number of alive cells.
+ */
     int Life::count_alive_cells(){
         int count = 0;
         for (const auto& row : m_currentMatrix) {
@@ -192,6 +254,14 @@ namespace life{
         return count;
     }
 
+/**
+ * @brief Generates a string key for the current matrix.
+ *
+ * This function generates a string key representing the current matrix state,
+ * used for detecting repeated patterns.
+ *
+ * @return A string key representing the current matrix state.
+ */
     std::string Life::generate_matrix_key(){
         std::string stringfication;
         std::stringstream oss;
@@ -209,12 +279,27 @@ namespace life{
         return stringfication;
     }
 
+/**
+ * @brief Checks if the given matrix key is already present.
+ *
+ * This function checks if the given matrix key is already present in the set of all matrices.
+ *
+ * @param matrixKey The matrix key to check.
+ * @return True if the matrix key is already present, false otherwise.
+ */
     bool Life::matrix_is_repeated(std::string matrixKey) {
         auto result = m_allMatrixes.insert(matrixKey);
         
         return !result.second;
     }
 
+/**
+ * @brief Prints the current matrix to the console.
+ *
+ * This function prints the current matrix to the console, displaying the generation count.
+ *
+ * @param genCount The current generation count.
+ */
     void Life::print_matrix(int& genCount){
         std::cout << "Generation " << genCount << ":" << std::endl;
         for(int ii = 1; ii < m_rows-1; ii++){
@@ -231,7 +316,13 @@ namespace life{
         std::cout << std::endl;
     }
 
-
+/**
+ * @brief Runs the simulation loop.
+ *
+ * This function runs the simulation loop, generating new generations and updating the matrix.
+ * The loop terminates if a repeated pattern is detected, no live cells are present, or the maximum
+ * number of generations is reached.
+ */
     void Life::simulation_loop(){
         int genCount = 1;
         while(true){

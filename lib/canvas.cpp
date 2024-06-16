@@ -7,7 +7,18 @@
 #include "lodepng.h"
 
 namespace life {
-
+    
+/**
+ * @brief Encodes an image to a PNG file and saves it to a specified filename.
+ *
+ * This function uses the lodepng library to encode an image represented by an array of pixels 
+ * and saves it as a PNG file. If there is an encoding error, it displays an error message.
+ *
+ * @param filename The name of the file where the PNG image will be saved.
+ * @param image A pointer to the array of pixels representing the image.
+ * @param width The width of the image in pixels.
+ * @param height The height of the image in pixels.
+ */
 void encode_png(const char* filename, const unsigned char* image, unsigned width, unsigned height) {
   // Encode the image
   unsigned error = lodepng::encode(filename, image, width, height);
@@ -34,18 +45,26 @@ Canvas::Canvas(const Canvas& clone) {
  */
 Canvas& Canvas::operator=(const Canvas& source) { return *this; }
 
-/// Assigns a black color to the whole image.
+/**
+ * @brief Clears the canvas by setting all pixels to a specified color.
+ *
+ * This function iterates over all the pixels in the canvas and sets each one to the given color.
+ *
+ * @param color The color to set all the pixels in the canvas to.
+ */
 void Canvas::clear(const Color& color) {
     for (size_t i{ 0 }; i < width(); ++i)
         for (size_t j{ 0 }; j < height(); ++j)
             pixel(i, j, color);
 }
 
-/*!
- * @throw `std::invalid_argument()` it the pixel coordinate is located outside the canvas.
- * @param x The (real) X coordinate of the pixel we want to know the color of.
- * @param x The (real) Y coordinate of the pixel we want to know the color of.
- * @return The pixel color.
+/**
+ * @brief Retrieves the color of a pixel at the specified coordinates.
+ *
+ * @throw std::invalid_argument If the pixel coordinate is located outside the canvas.
+ * @param x The X coordinate of the pixel we want to know the color of.
+ * @param y The Y coordinate of the pixel we want to know the color of.
+ * @return The color of the specified pixel.
  */
 Color Canvas::pixel(coord_t x, coord_t y) const {
     if (not in_bounds(x, y))
@@ -54,13 +73,13 @@ Color Canvas::pixel(coord_t x, coord_t y) const {
     return Color{ channels[Color::R], channels[Color::G], channels[Color::B] };
 }
 
-/*!
- * Draw a pixel on the real image at the requested coordinate.
+/**
+ * @brief Draws a pixel on the real image at the specified coordinates.
  *
  * @note Nothing is done if the pixel coordinate is located outside the canvas.
- * @param x The (real) X coordinate of the pixel we want to know the color of.
- * @param x The (real) Y coordinate of the pixel we want to know the color of.
- * @param c The color.
+ * @param x The X coordinate of the pixel to be drawn.
+ * @param y The Y coordinate of the pixel to be drawn.
+ * @param c The color of the pixel.
  */
 void Canvas::pixel(coord_t x, coord_t y, const Color& c) {
     if (not in_bounds(x, y))
@@ -82,7 +101,19 @@ void Canvas::pixel(coord_t x, coord_t y, const Color& c) {
               = 255;  //!< Setting alpha to full opacity
         }
 }
-
+/**
+ * @brief Converts a matrix to a PNG image and saves it to a specified file path.
+ *
+ * This function clears the canvas, iterates over the matrix, and draws pixels on the canvas 
+ * according to the matrix values. It then encodes the canvas to a PNG image file.
+ *
+ * @param matrix The matrix representing the current state of the canvas.
+ * @param aliveColor The color used to represent alive cells.
+ * @param bkgColor The background color used to represent dead or empty cells.
+ * @param imagePath The path where the PNG image will be saved.
+ * @param configPrefix The prefix used in the filename of the PNG image.
+ * @param genCount The generation count, used in the filename of the PNG image.
+ */
 void Canvas::matrix_to_png(std::vector<std::vector<int>>& matrix, std::string aliveColor, std::string bkgColor, std::string imagePath, std::string configPrefix, int genCount){
     clear();
     for (int y = 0; y < (int)height(); ++y) {

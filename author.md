@@ -14,25 +14,18 @@ Preencha os itens que você implementou, indicando qual a nota esperada para cad
 
 | Item                                                                                      | Valor máximo | Valor esperado |
 | ----------------------------------------------------------------------------------------- | :----------: | :------------: |
-| Lê nome do jogador                                                                        |      5       |       5        |
-| Exibe e gerencia menu de opções                                                           |      10      |       10       |
-| Exibe e gerencia escolha de categoria das palavras                                        |      10      |       10       |
-| Exibe regras do jogo quando solicitado                                                    |      5       |       5        |
-| Exibe tabela de pontuação                                                                 |      5       |       5        |
-| Contabiliza e acumula os pontos de várias partidas                                        |      10      |       10       |
-| Escolhe uma palavra aletória (sem repetir) a partir das lista de palavras lida do arquivo |      10      |       10       |
-| Controla o número de erros para um jogador perder uma partida                             |      5       |       5        |
-| Exibe partes do boneco na forca conforme os erros se acumulam                             |      5       |       5        |
-| Exibe os erros/acertos da palavra secreta em uma partida                                  |      10      |       10       |
-| Exibe palavra secreta completa, quando uma partida é perdida                              |      5       |       5        |
-| Exibe a lista de chutes errados                                                           |      5       |       5        |
+| Coleta corretamente os parâmetro via arquivo de configuração INI                          |      10      |       10       |
+| Lê uma configuração a partir de um arquivo ascii e inicializa um objeto Life              |      5       |       5        |
+| Exibe corretamente uma configuração na saída padrão                                       |      10      |       10       |
+| Exibe corretamente uma configuração na imagem gravada                                     |      10      |       10       |
+| Aplica corretamente as regras de evolução descritas na Seção 1                            |      10      |       10       |
+| Executa corretamente a evolução da configuração                                           |      10      |       10       |
+| Detecta corretamente estabilidade da simulação, com a indicação da frequência             |      15      |       15       |
+| Detecta corretamente extinção da simulação                                                |      5       |       5        |
+| Gera corretamente os arquivos de imagens                                                  |      10      |       10       |
 | Permite o cancelamento de uma partida em andamento                                        |      5       |       5        |
-| Apresenta as telas no formato organizacional sugerido                                     |      5       |       5        |
-| Projeto contém pelo menos 2 classes                                                       |      5       |       5        |
-| Programa gerencia erros corretamente                                                      |      5       |       5        |
-| Lê palavras e categorias do arquivo de palavras `words.csv`                               |      10      |       10       |
-| Lê informações do pontuação `score.hgm`                                                   |      10      |       10       |
-| Funcionamento geral correto do program                                                    |      10      |       10       |
+| Programa apresenta pelo menos uma classe                                                  |      5       |       5        |
+| Trata corretamente erros de entrada do usuário                                            |      10      |       10       |
 
 # Compiling and Runnig
 

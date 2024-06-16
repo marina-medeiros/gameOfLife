@@ -40,7 +40,7 @@ namespace life{
         m_rows = stoi(line.substr(0, spacePos)) + 2;
         m_cols = stoi(line.substr(spacePos + 1)) + 2;
 
-        std::cout << ">>> Grid size read from input file: " << m_cols << " by cols" << m_rows << " rows." << std::endl;
+        std::cout << ">>> Grid size read from input file: " << m_rows - 2 << " rows by " << m_cols - 2 << " cols." << std::endl;
 
         std::getline(inputFile, line);
         m_liveChar = line[0];
@@ -342,7 +342,6 @@ namespace life{
             std::this_thread::sleep_for(std::chrono::milliseconds(frame_duration_ms));
             if(m_image){
                 image.matrix_to_png(m_currentMatrix, m_aliveColor, m_bkgColor, m_imagePath, extractConfigPrefix(), genCount);
-                print_matrix(genCount);
             }else{
                 print_matrix(genCount);
             }

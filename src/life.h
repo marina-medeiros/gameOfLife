@@ -20,18 +20,18 @@ namespace life {
 
             int m_rows;
             int m_cols;
-            std::vector<int> m_surviveConditions;
-            std::vector<int> m_bornConditions;
+            std::vector<int> m_surviveConditions = {2, 3};
+            std::vector<int> m_bornConditions = {3};
             int m_maxGen = 0;
             std::string m_cfgFile;
-            std::string m_gameRules; // sets conditions
+            std::string m_gameRules = "B3/S23"; // sets conditions
             bool m_image;
-            std::string m_aliveColor;
+            std::string m_aliveColor = "YELLOW";
             int m_blockSize = 10;
-            std::string m_bkgColor;
+            std::string m_bkgColor = "RED";
             std::string m_imagePath;
-            int m_fps;
-            char m_liveChar;
+            int m_fps = 2;
+            char m_liveChar = '*';
 
         public:
             Life(const Data& data) {

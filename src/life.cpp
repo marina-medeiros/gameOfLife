@@ -32,8 +32,12 @@ namespace life{
         m_rows = stoi(line.substr(0, spacePos)) + 2;
         m_cols = stoi(line.substr(spacePos + 1)) + 2;
 
+        std::cout << ">>> Grid size read from input file: " << m_cols << " by cols" << m_rows << " rows." << std::endl;
+
         std::getline(inputFile, line);
         m_liveChar = line[0];
+
+        std::cout << ">>> Character that represents a living cell read from input file: " << m_liveChar << std::endl;
 
         // Resize the matrix to the appropriate number of rows and columns
         m_currentMatrix.resize(m_rows, std::vector<int>(m_cols, 0));
@@ -49,7 +53,7 @@ namespace life{
                 rowSubstring = line.substr(0, m_cols);
             }
             for (int jj = 1; jj < m_cols-1; jj++) {
-                if (rowSubstring[jj] == m_liveChar) {
+                if (rowSubstring[jj-1] == m_liveChar) {
                     m_currentMatrix[ii][jj] = 1;
                 } else {
                     m_currentMatrix[ii][jj] = 0;
@@ -58,6 +62,7 @@ namespace life{
         }
 
         inputFile.close();
+        std::cout << ">>> Finished reading input data file.\n" << std::endl;
     }
 
     void Life::set_conditions(const std::string input){
@@ -204,20 +209,9 @@ namespace life{
         return stringfication;
     }
 
-    // bool Life::matrix_is_repeated(std::string matrixKey){
-    //     if(!m_allMatrixes.insert(matrixKey).second){
-    //         return true;
-    //     }else{
-    //         m_allMatrixes.insert(matrixKey);
-    //     }
-    //     return false;
-    // }
-
     bool Life::matrix_is_repeated(std::string matrixKey) {
-        // Tenta inserir o matrixKey no conjunto
         auto result = m_allMatrixes.insert(matrixKey);
         
-        // Se a inserção falhar, significa que a chave já está presente
         return !result.second;
     }
 
@@ -250,13 +244,14 @@ namespace life{
             if(genCount > m_maxGen){
                 break;
             }
-            unsigned width = static_cast<unsigned int>(m_cols);
-            unsigned height = static_cast<unsigned int>(m_rows);
+            unsigned width = static_cast<unsigned int>(m_cols-2);
+            unsigned height = static_cast<unsigned int>(m_rows-2);
             Canvas image(width, height, m_blockSize);
             int frame_duration_ms = 1000 / m_fps;
             std::this_thread::sleep_for(std::chrono::milliseconds(frame_duration_ms));
             if(m_image){
                 image.matrix_to_png(m_currentMatrix, m_aliveColor, m_bkgColor, m_imagePath, extractConfigPrefix(), genCount);
+                print_matrix(genCount);
             }else{
                 print_matrix(genCount);
             }

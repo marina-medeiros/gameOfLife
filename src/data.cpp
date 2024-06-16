@@ -9,6 +9,15 @@
 #include <sstream>
 #include "data.h"
 
+/**
+ * @brief Trims leading and trailing spaces from a given string.
+ *
+ * This function removes all leading and trailing spaces from the input string
+ * and returns the result.
+ *
+ * @param str The input string to be trimmed.
+ * @return A new string with leading and trailing spaces removed.
+ */
 std::string trim(const std::string &str) {
     size_t first = str.find_first_not_of(' ');
     if (first == std::string::npos) return "";
@@ -17,13 +26,16 @@ std::string trim(const std::string &str) {
 }
 
 void Data::read_ini(std::string iniFile) {
+    std::cout << ">>> Trying to open input file [../source/data/cfg2.dat]...";
     std::ifstream inputFile(iniFile);
     std::unordered_map<std::string, std::string> answers;
 
     if (!inputFile.is_open()) { 
-        std::cerr << "Error opening initiation file!" << std::endl;
+        std::cerr << ">>> Error opening initiation file!" << std::endl;
         exit(1);
     }
+    std::cout << " done!" << std::endl;
+    std::cout << ">>> Processing data, please wait..." << std::endl;
 
     std::string line;
 

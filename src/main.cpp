@@ -64,12 +64,12 @@ std::string validate_input(int argc, char* argv[]){
 
 void displayWelcome(int lines, int cols) {
     std::cout << "****************************************************************" << std::endl;
-    std::cout << "Welcome to Conway’s game of Life." << std::endl;
-    std::cout << "Running a simulation on a grid of size " << lines-2 << " by " << cols-2 << " in which" << std::endl;
-    std::cout << "each cell can either be occupied by an organism or not." << std::endl;
-    std::cout << "The occupied cells change from generation to generation" << std::endl;
-    std::cout << "according to the number of neighboring cells which are alive." << std::endl;
-    std::cout << "****************************************************************" << std::endl;
+    std::cout << "   Welcome to Conway’s game of Life." << std::endl;
+    std::cout << "   Running a simulation on a grid of size " << lines-2 << " by " << cols-2 << " in which" << std::endl;
+    std::cout << "   each cell can either be occupied by an organism or not." << std::endl;
+    std::cout << "   The occupied cells change from generation to generation" << std::endl;
+    std::cout << "   according to the number of neighboring cells which are alive." << std::endl;
+    std::cout << "****************************************************************\n" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
